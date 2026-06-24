@@ -14,9 +14,13 @@ Different parts of this repository are covered by different license terms:
 
 ## Source code
 
-Unless a separate license file explicitly says otherwise, the source code in this repository is not licensed for public use.
+The source code in this repository is provided mainly to build and publish the Gelo blog.
 
-You may view the source code on GitHub, but you may not copy, modify, redistribute, sublicense, sell, publish, reuse, or use it as the basis for another project, product, or service.
+You may view the code, learn from it, and reuse small, generic implementation ideas or snippets, such as simple Astro helpers, RSS generation, Markdown handling, layout patterns, or build configuration.
+
+However, this repository is not offered as an open source project or as a reusable software package. You may not copy or republish the repository as a whole, use it to create a confusingly similar site, or reuse any Gelo brand assets, editorial content, names, logos, visual identity, or other protected materials.
+
+Brand assets and editorial content are covered by their own license terms in the paths listed above.
 
 ## No implied license
 
