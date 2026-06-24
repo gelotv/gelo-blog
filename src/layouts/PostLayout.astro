@@ -1,0 +1,79 @@
+---
+import type { CollectionEntry } from "astro:content";
+import BaseLayout from "./BaseLayout.astro";
+
+type Props = {
+  post: CollectionEntry<"posts">;
+  relatedPosts?: CollectionEntry<"posts">[];
+};
+
+const { post, relatedPosts = [] } = Astro.props;
+const postPath = (entry: CollectionEntry<"posts">) =>
+  `/posts/${entry.id.replace(/\.(md|mdx)$/, "")}/`;
+const date = post.data.publishDate.toLocaleDateString("pt-BR", {
+  day: "2-digit",
+  month: "long",
+  year: "numeric",
+});
+---
+
+<BaseLayout title={post.data.title} description={post.data.description}>
+  <main class="post-shell">
+    <article>
+      <header class="post-header">
+        <div class="post-header__meta">
+          <span>{post.data.category}</span>
+          <span>{date}</span>
+          <span>{post.data.author}</span>
+        </div>
+        <h1>{post.data.title}</h1>
+        <p class="post-header__lead">{post.data.description}</p>
+      </header>
+
+      <img
+        alt={post.data.thumbnail.alt}
+        class="post-cover"
+        decoding="async"
+        src={post.data.thumbnail.src}
+      />
+
+      <div class="post-body">
+        <slot />
+      </div>
+
+      {
+        relatedPosts.length > 0 && (
+          <section class="related-posts" aria-labelledby="related-posts">
+            <div class="section-heading">
+              <p class="eyebrow">Relacionados</p>
+              <h2 id="related-posts">Leia também</h2>
+            </div>
+            <div class="post-grid">
+              {relatedPosts.map((relatedPost) => (
+                <a class="post-card" href={postPath(relatedPost)}>
+                  <img
+                    alt={relatedPost.data.thumbnail.alt}
+                    class="post-card__image"
+                    decoding="async"
+                    loading="lazy"
+                    src={relatedPost.data.thumbnail.src}
+                  />
+                  <div class="post-card__meta">
+                    <span>{relatedPost.data.category}</span>
+                  </div>
+                  <h2>{relatedPost.data.title}</h2>
+                  <p>{relatedPost.data.description}</p>
+                </a>
+              ))}
+            </div>
+          </section>
+        )
+      }
+
+      <nav aria-label="Navegação do post" class="post-nav">
+        <a href="/">Voltar para o blog</a>
+        <a href="https://gelo.tv">Abrir gelo.tv</a>
+      </nav>
+    </article>
+  </main>
+</BaseLayout>

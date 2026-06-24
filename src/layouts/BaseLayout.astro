@@ -1,0 +1,68 @@
+---
+import "../styles/global.css";
+
+type Props = {
+  title?: string;
+  description?: string;
+};
+
+const {
+  title = "Geloblog",
+  description = "Blog em português do Gelo sobre produto, comunidade e streaming.",
+} = Astro.props;
+
+const pageTitle = title === "Geloblog" ? title : `${title} | Geloblog`;
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/brand/meta.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="/brand/gelo_icon_blue.svg" />
+    <link rel="alternate" type="application/rss+xml" title="Geloblog" href="/rss.xml" />
+    <title>{pageTitle}</title>
+  </head>
+  <body>
+    <div class="site-shell">
+      <header class="site-header">
+        <div class="site-header__inner">
+          <a aria-label="Ir para a página inicial do Geloblog" class="site-header__brand" href="/">
+            <img
+              alt="Gelo"
+              class="site-header__logo"
+              decoding="async"
+              src="/brand/gelo_logo_blue_paper.svg"
+            />
+          </a>
+
+          <nav aria-label="Navegação principal" class="site-header__nav">
+            <a href="/">Blog</a>
+            <a href="/rss.xml">RSS</a>
+            <a href="https://gelo.tv">gelo.tv</a>
+          </nav>
+
+          <a class="site-header__action" href="https://gelo.tv">Abrir Gelo</a>
+        </div>
+      </header>
+
+      <slot />
+
+      <footer class="site-footer">
+        <img
+          alt="Gelo"
+          class="site-footer__logo"
+          decoding="async"
+          src="/brand/gelo_logo_white_white.svg"
+        />
+        <p>Geloblog. Conteúdo em português para a comunidade Gelo.</p>
+      </footer>
+    </div>
+  </body>
+</html>
