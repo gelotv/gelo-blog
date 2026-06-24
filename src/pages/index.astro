@@ -2,6 +2,13 @@
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { assetPath } from "../lib/paths";
+import {
+  absoluteUrl,
+  currentUrl,
+  siteDescription,
+  siteName,
+  siteTopics,
+} from "../lib/seo";
 
 const posts = (await getCollection("posts"))
   .filter((post) => !post.data.draft)
@@ -17,9 +24,59 @@ const formatDate = (date: Date) =>
     month: "short",
     year: "numeric",
   });
+
+const homeUrl = currentUrl(Astro.url.pathname, Astro.site);
+const publisher = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": `${homeUrl}#organization`,
+  name: "Gelo",
+  url: "https://gelo.tv",
+  logo: {
+    "@type": "ImageObject",
+    url: absoluteUrl("/brand/gelo_icon_blue.svg", Astro.site),
+  },
+  sameAs: ["https://gelo.tv"],
+};
+
+const jsonLd = [
+  publisher,
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": `${homeUrl}#website`,
+    name: siteName,
+    alternateName: ["Blog Gelo", "Blog do Gelo", "blog.gelo.tv"],
+    url: homeUrl,
+    inLanguage: "pt-BR",
+    description: siteDescription,
+    publisher: { "@id": `${homeUrl}#organization` },
+    about: siteTopics,
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "@id": `${homeUrl}#blog`,
+    name: siteName,
+    url: homeUrl,
+    inLanguage: "pt-BR",
+    description: siteDescription,
+    publisher: { "@id": `${homeUrl}#organization` },
+    about: siteTopics,
+    blogPost: posts.map((post) => ({
+      "@type": "BlogPosting",
+      headline: post.data.title,
+      description: post.data.description,
+      url: new URL(postPath(post), Astro.site).toString(),
+      datePublished: post.data.publishDate.toISOString(),
+      author: { "@type": "Organization", name: post.data.author },
+      keywords: post.data.tags,
+    })),
+  },
+];
 ---
 
-<BaseLayout>
+<BaseLayout description={siteDescription} jsonLd={jsonLd} tags={[...siteTopics]}>
   <main>
     <section class="blog-hero">
       <div class="blog-hero__content">

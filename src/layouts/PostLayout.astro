@@ -2,6 +2,7 @@
 import type { CollectionEntry } from "astro:content";
 import BaseLayout from "./BaseLayout.astro";
 import { assetPath } from "../lib/paths";
+import { absoluteUrl, currentUrl, siteName } from "../lib/seo";
 
 type Props = {
   post: CollectionEntry<"posts">;
@@ -16,9 +17,70 @@ const date = post.data.publishDate.toLocaleDateString("pt-BR", {
   month: "long",
   year: "numeric",
 });
+const postUrl = currentUrl(Astro.url.pathname, Astro.site);
+const imageUrl = absoluteUrl(post.data.thumbnail.src, Astro.site);
+const updatedDate = post.data.updatedDate ?? post.data.publishDate;
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "@id": `${postUrl}#article`,
+    mainEntityOfPage: postUrl,
+    headline: post.data.title,
+    description: post.data.description,
+    image: [imageUrl],
+    datePublished: post.data.publishDate.toISOString(),
+    dateModified: updatedDate.toISOString(),
+    inLanguage: "pt-BR",
+    articleSection: post.data.category,
+    keywords: post.data.tags,
+    author: {
+      "@type": "Organization",
+      name: post.data.author,
+      url: "https://gelo.tv",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Gelo",
+      url: "https://gelo.tv",
+      logo: {
+        "@type": "ImageObject",
+        url: absoluteUrl("/brand/gelo_icon_blue.svg", Astro.site),
+      },
+    },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: siteName,
+        item: currentUrl(assetPath("/"), Astro.site),
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: post.data.title,
+        item: postUrl,
+      },
+    ],
+  },
+];
 ---
 
-<BaseLayout title={post.data.title} description={post.data.description}>
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  image={post.data.thumbnail.src}
+  type="article"
+  publishedTime={post.data.publishDate}
+  modifiedTime={updatedDate}
+  author={post.data.author}
+  tags={post.data.tags}
+  jsonLd={jsonLd}
+>
   <main class="post-shell">
     <article>
       <header class="post-header">

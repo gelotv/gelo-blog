@@ -1,20 +1,44 @@
 ---
 import "../styles/global.css";
 import { assetPath } from "../lib/paths";
+import {
+  absoluteUrl,
+  currentUrl,
+  siteDescription,
+  siteLocale,
+  siteName,
+} from "../lib/seo";
 
 type Props = {
   title?: string;
   description?: string;
+  image?: string;
+  type?: "website" | "article";
+  publishedTime?: Date;
+  modifiedTime?: Date;
+  author?: string;
+  tags?: string[];
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 };
 
 const {
-  title = "Geloblog",
-  description = "Blog em português do Gelo sobre produto, comunidade e streaming.",
+  title = siteName,
+  description = siteDescription,
+  image = "/brand/meta.jpg",
+  type = "website",
+  publishedTime,
+  modifiedTime,
+  author,
+  tags = [],
+  jsonLd = [],
 } = Astro.props;
 
-const pageTitle = title === "Geloblog" ? title : `${title} | Geloblog`;
+const pageTitle = title === siteName ? siteName : `${title} | ${siteName}`;
 const homePath = assetPath("/");
 const rssPath = assetPath("/rss.xml");
+const canonicalUrl = currentUrl(Astro.url.pathname, Astro.site);
+const imageUrl = absoluteUrl(image, Astro.site);
+const schema = Array.isArray(jsonLd) ? jsonLd : [jsonLd];
 ---
 
 <!doctype html>
@@ -23,14 +47,37 @@ const rssPath = assetPath("/rss.xml");
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="author" content={author ?? "Gelo"} />
+    <meta name="language" content="pt-BR" />
+    <meta name="theme-color" content="#0095ff" />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content={assetPath("/brand/meta.jpg")} />
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:locale" content={siteLocale} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:alt" content="Identidade visual do Gelo" />
+    {publishedTime && <meta property="article:published_time" content={publishedTime.toISOString()} />}
+    {modifiedTime && <meta property="article:modified_time" content={modifiedTime.toISOString()} />}
+    {author && <meta property="article:author" content={author} />}
+    {tags.map((tag) => <meta property="article:tag" content={tag} />)}
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+    <meta name="twitter:image:alt" content="Identidade visual do Gelo" />
+    <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" href={assetPath("/brand/gelo_icon_blue.svg")} />
     <link rel="alternate" type="application/rss+xml" title="Geloblog" href={rssPath} />
+    <link rel="alternate" type="text/plain" title="Geloblog para LLMs" href={assetPath("/llms.txt")} />
     <title>{pageTitle}</title>
+    {
+      schema.map((entry) => (
+        <script is:inline type="application/ld+json" set:html={JSON.stringify(entry)} />
+      ))
+    }
   </head>
   <body>
     <div class="site-shell">
