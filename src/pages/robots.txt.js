@@ -8,9 +8,12 @@ export function GET(context) {
     [
       "User-agent: *",
       "Allow: /",
+      "Allow: /posts/",
+      "Allow: /rss.xml",
+      "Allow: /llms.txt",
       "",
       `Sitemap: ${sitemapUrl.toString()}`,
-      `# LLM context: ${llmsUrl.toString()}`,
+      `LLMs: ${llmsUrl.toString()}`,
       "",
     ].join("\n"),
     {
