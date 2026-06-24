@@ -13,7 +13,7 @@ permissions:
 
 concurrency:
   group: pages
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -22,24 +22,47 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Restore built site
+        id: dist-cache
+        uses: actions/cache@v4
+        with:
+          path: dist
+          key: astro-dist-${{ runner.os }}-${{ hashFiles('package.json', 'pnpm-lock.yaml', 'astro.config.mjs', 'tsconfig.json', 'deploy-target.txt', 'scripts/**', 'src/**', 'public/**') }}
+
       - name: Setup pnpm
+        if: steps.dist-cache.outputs.cache-hit != 'true'
         uses: pnpm/action-setup@v4
         with:
           version: 10.30.2
 
       - name: Setup Node
+        if: steps.dist-cache.outputs.cache-hit != 'true'
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: pnpm
 
+      - name: Restore build caches
+        if: steps.dist-cache.outputs.cache-hit != 'true'
+        uses: actions/cache@v4
+        with:
+          path: |
+            .astro
+            node_modules/.vite
+            ~/.cache/astro
+          key: astro-build-cache-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'astro.config.mjs', 'tsconfig.json') }}-${{ github.sha }}
+          restore-keys: |
+            astro-build-cache-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'astro.config.mjs', 'tsconfig.json') }}-
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
       - name: Install dependencies
+        if: steps.dist-cache.outputs.cache-hit != 'true'
         run: pnpm install --frozen-lockfile
 
       - name: Build
+        if: steps.dist-cache.outputs.cache-hit != 'true'
         run: pnpm build
 
       - name: Upload artifact
