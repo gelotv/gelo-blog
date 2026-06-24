@@ -14,7 +14,7 @@ const posts = defineCollection({
     tags: z.array(z.string()).default([]),
     featured: z.boolean().default(false),
     thumbnail: z.object({
-      src: z.string().url().or(z.string().startsWith("/")),
+      src: z.url().or(z.string().startsWith("/")),
       alt: z.string(),
     }),
     draft: z.boolean().default(false),

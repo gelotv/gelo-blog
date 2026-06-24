@@ -113,9 +113,11 @@ const formatDate = (date: Date) =>
   </main>
 
   <script>
-    const input = document.querySelector("[data-post-search]");
-    const cards = Array.from(document.querySelectorAll("[data-post-card]"));
-    const emptyState = document.querySelector("[data-empty-state]");
+    const input = document.querySelector<HTMLInputElement>("[data-post-search]");
+    const cards = Array.from(
+      document.querySelectorAll<HTMLElement>("[data-post-card]"),
+    );
+    const emptyState = document.querySelector<HTMLElement>("[data-empty-state]");
 
     input?.addEventListener("input", () => {
       const query = input.value.trim().toLowerCase();
