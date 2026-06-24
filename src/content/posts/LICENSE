@@ -1,0 +1,47 @@
+# Gelo Editorial Content License
+
+Copyright (c) Gelo. All rights reserved.
+
+This license applies to all files in this directory and its subdirectories:
+
+```txt
+src/content/posts/
+```
+
+These files contain editorial content published by Gelo.
+
+## Permission
+
+You may:
+
+* read the content;
+* share links to the original posts published on official Gelo websites;
+* quote short excerpts for reference, commentary, criticism, discussion, or news purposes, provided that you clearly credit Gelo as the source and link to the original post when available.
+
+## Restrictions
+
+Without prior written permission from Gelo, you may not:
+
+* republish full posts;
+* copy full articles to another website, blog, repository, newsletter, social media account, book, dataset, archive, or publication;
+* redistribute the Markdown files;
+* mirror, scrape, or archive the content for public redistribution;
+* sell, sublicense, or commercially exploit the content;
+* remove or alter author names, source links, credits, or copyright notices;
+* present the content as your own or as content created by another person or organization.
+
+## Attribution for quotations
+
+When quoting a short excerpt, attribution should include the name “Gelo” and, when available, a link to the original post.
+
+Example:
+
+```txt
+Source: Gelo — https://blog.gelo.tv/
+```
+
+For a specific post, link directly to the original post URL.
+
+## Reservation of rights
+
+All rights not expressly granted are reserved by Gelo.

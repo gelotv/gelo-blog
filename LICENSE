@@ -1,0 +1,25 @@
+# License
+
+Copyright (c) Gelo. All rights reserved.
+
+This repository is publicly visible for convenience and transparency. Public visibility does not grant any license to use, copy, modify, distribute, sublicense, publish, or reuse any part of this repository, except where explicitly stated otherwise.
+
+Different parts of this repository are covered by different license terms:
+
+| Path                 | License                                                             |
+| -------------------- | ------------------------------------------------------------------- |
+| `public/brand/`      | Gelo Brand Assets License — see `public/brand/LICENSE`           |
+| `src/content/posts/` | Gelo Editorial Content License — see `src/content/posts/LICENSE` |
+| Everything else      | All rights reserved. No license granted.                            |
+
+## Source code
+
+Unless a separate license file explicitly says otherwise, the source code in this repository is not licensed for public use.
+
+You may view the source code on GitHub, but you may not copy, modify, redistribute, sublicense, sell, publish, reuse, or use it as the basis for another project, product, or service.
+
+## No implied license
+
+The fact that this repository is public does not mean that it is open source, community-maintained, or available for reuse.
+
+All rights not expressly granted are reserved by Gelo.
