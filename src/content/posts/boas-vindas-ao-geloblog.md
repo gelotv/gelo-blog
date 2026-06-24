@@ -7,7 +7,7 @@ category: "Produto"
 tags: ["teste", "gelo.tv", "produto"]
 featured: true
 thumbnail:
-  src: "/brand/meta.jpg"
+  src: "brand/meta.jpg"
   alt: "Identidade visual do Gelo em fundo escuro"
 ---
 
@@ -19,7 +19,7 @@ O conteúdo fica em Markdown, com frontmatter para título, descrição, categor
 
 Imagens dentro do post podem usar URL externa:
 
-![Marca do Gelo em destaque](/brand/meta.jpg)
+![Marca do Gelo em destaque](https://gelotv.github.io/gelo-blog/brand/meta.jpg)
 
 ## Conteúdo
 

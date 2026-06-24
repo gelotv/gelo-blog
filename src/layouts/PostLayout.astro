@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import BaseLayout from "./BaseLayout.astro";
+import { assetPath } from "../lib/paths";
 
 type Props = {
   post: CollectionEntry<"posts">;
@@ -9,7 +10,7 @@ type Props = {
 
 const { post, relatedPosts = [] } = Astro.props;
 const postPath = (entry: CollectionEntry<"posts">) =>
-  `/posts/${entry.id.replace(/\.(md|mdx)$/, "")}/`;
+  assetPath(`/posts/${entry.id.replace(/\.(md|mdx)$/, "")}/`);
 const date = post.data.publishDate.toLocaleDateString("pt-BR", {
   day: "2-digit",
   month: "long",
@@ -34,7 +35,7 @@ const date = post.data.publishDate.toLocaleDateString("pt-BR", {
         alt={post.data.thumbnail.alt}
         class="post-cover"
         decoding="async"
-        src={post.data.thumbnail.src}
+        src={assetPath(post.data.thumbnail.src)}
       />
 
       <div class="post-body">
@@ -56,7 +57,7 @@ const date = post.data.publishDate.toLocaleDateString("pt-BR", {
                     class="post-card__image"
                     decoding="async"
                     loading="lazy"
-                    src={relatedPost.data.thumbnail.src}
+                    src={assetPath(relatedPost.data.thumbnail.src)}
                   />
                   <div class="post-card__meta">
                     <span>{relatedPost.data.category}</span>
@@ -71,7 +72,7 @@ const date = post.data.publishDate.toLocaleDateString("pt-BR", {
       }
 
       <nav aria-label="Navegação do post" class="post-nav">
-        <a href="/">Voltar para o blog</a>
+        <a href={assetPath("/")}>Voltar para o blog</a>
         <a href="https://gelo.tv">Abrir gelo.tv</a>
       </nav>
     </article>

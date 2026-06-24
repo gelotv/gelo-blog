@@ -1,7 +1,7 @@
 import rss from "@astrojs/rss";
 import { getCollection } from "astro:content";
 
-const postPath = (post) => `/posts/${post.id.replace(/\.(md|mdx)$/, "")}/`;
+const postPath = (post) => `posts/${post.id.replace(/\.(md|mdx)$/, "")}/`;
 
 export async function GET(context) {
   const posts = (await getCollection("posts"))

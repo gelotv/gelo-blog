@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { assetPath } from "../lib/paths";
 
 const posts = (await getCollection("posts"))
   .filter((post) => !post.data.draft)
@@ -8,7 +9,7 @@ const posts = (await getCollection("posts"))
 
 const featuredPost = posts.find((post) => post.data.featured) ?? posts[0];
 const postPath = (post: (typeof posts)[number]) =>
-  `/posts/${post.id.replace(/\.(md|mdx)$/, "")}/`;
+  assetPath(`/posts/${post.id.replace(/\.(md|mdx)$/, "")}/`);
 
 const formatDate = (date: Date) =>
   date.toLocaleDateString("pt-BR", {
@@ -28,7 +29,7 @@ const formatDate = (date: Date) =>
             aria-hidden="true"
             class="blog-hero__mark"
             decoding="async"
-            src="/brand/gelo_icon_blue.svg"
+            src={assetPath("/brand/gelo_icon_blue.svg")}
           />
           <p class="eyebrow">blog.gelo.tv</p>
           <h1>Geloblog</h1>
@@ -44,7 +45,7 @@ const formatDate = (date: Date) =>
                 alt={featuredPost.data.thumbnail.alt}
                 class="featured-post__image"
                 decoding="async"
-                src={featuredPost.data.thumbnail.src}
+                src={assetPath(featuredPost.data.thumbnail.src)}
               />
               <div class="featured-post__body">
                 <div class="post-card__meta">
@@ -91,7 +92,7 @@ const formatDate = (date: Date) =>
                 class="post-card__image"
                 decoding="async"
                 loading="lazy"
-                src={post.data.thumbnail.src}
+                src={assetPath(post.data.thumbnail.src)}
               />
               <div class="post-card__meta">
                 <span>{post.data.category}</span>
