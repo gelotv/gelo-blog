@@ -73,6 +73,27 @@ const schema = Array.isArray(jsonLd) ? jsonLd : [jsonLd];
     <link rel="alternate" type="application/rss+xml" title="Geloblog" href={rssPath} />
     <link rel="alternate" type="text/plain" title="Geloblog para LLMs" href={assetPath("/llms.txt")} />
     <title>{pageTitle}</title>
+
+    <!-- Privacy-friendly analytics by Plausible -->
+    <script
+      is:inline
+      async
+      src="https://analytics.gelo.tv/js/pa-MM-Ly3T4P0bhZVDgdEx5n.js"
+    ></script>
+    <script is:inline>
+      window.plausible =
+        window.plausible ||
+        function () {
+          (plausible.q = plausible.q || []).push(arguments);
+        };
+      plausible.init =
+        plausible.init ||
+        function (i) {
+          plausible.o = i || {};
+        };
+      plausible.init();
+    </script>
+
     {
       schema.map((entry) => (
         <script is:inline type="application/ld+json" set:html={JSON.stringify(entry)} />
